@@ -1,0 +1,23 @@
+Nouns:
+- person
+- bike
+- docking station
+
+Verbs:
+- use
+- release
+- see
+- working
+
+Objects         |   Messages
+----------------------
+person          |
+bike            |   bike_working? use_bike
+docking station |   release_bike
+
+
+noun         |   verb
+----------------------
+person          |
+bike            |   use, see_working
+docking station |   release

@@ -1,6 +1,13 @@
 # In spec/borisbike_spec.rb
 require 'docking_station.rb'
-require 'bike.rb'
+
+describe Bike do
+  it {is_expected.to respond_to :working?}
+  it 'bike is working' do
+    bike = Bike.new
+    expect(bike.working?).to eq true
+  end
+end
 
 describe DockingStation do
   it {is_expected.to respond_to :release_bike}

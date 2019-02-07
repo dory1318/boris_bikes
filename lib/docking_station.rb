@@ -1,6 +1,7 @@
 require './lib/bike.rb'
 
 class DockingStation
+  DEFAULT_CAPACITY = 20
   attr_reader :stored_bikes
   def initialize
     @stored_bikes = []
@@ -14,12 +15,12 @@ class DockingStation
   def dock_bike (bike)
     fail 'Error, Another bike already docked' if full?
     @stored_bikes << bike
-    #return @stored_bikes
   end
 
 private
+
   def full?
-    @stored_bikes.count >= 20
+    @stored_bikes.count >= DEFAULT_CAPACITY
   end
 
   def empty?

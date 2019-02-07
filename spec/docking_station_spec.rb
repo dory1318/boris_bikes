@@ -1,16 +1,8 @@
 # In spec/borisbike_spec.rb
 require 'docking_station.rb'
 
-describe Bike do
-  it {is_expected.to respond_to :working?}
-  it 'bike is working' do
-    bike = Bike.new
-    expect(bike.working?).to eq true
-  end
-end
-
 describe DockingStation do
-  it {is_expected.to respond_to :release_bike}
+  it {is_expected.to respond_to :release_empty_bike}
   it {is_expected.to respond_to :dock_bike}
 
   it 'has a default capacity' do
@@ -31,8 +23,9 @@ describe DockingStation do
   describe '#release bike'do
   it 'raises error' do
     docking_station = DockingStation.new
-    expect{docking_station.release_bike}.to raise_error 'Error, no bikes available!'
+    expect{docking_station.release_empty_bike}.to raise_error 'Error, no bikes available!'
   end
+
 end
 
   describe '#docks a bike' do
@@ -42,6 +35,18 @@ end
       bike2 = Bike.new
       expect{docking_station.dock_bike(bike2)}.to raise_error 'Docking station full'
     end
+    it 'stores broken and not broken bikes' do
+      docking_station = DockingStation.new
+      bike = Bike.new
+      bike.broken_bike
+      expect{docking_station.dock_bike(bike).to include bike}
+    end
+  end
+
+  it 'does not release broken bike' do
+    docking_station = DockingStation.new
+    bike = Bike.new
+    expect{docking_station.release_broken_bike(bike)}.to raise_error 'Broken bike'
   end
 
   it 'shows docked bike' do

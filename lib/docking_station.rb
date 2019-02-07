@@ -1,9 +1,4 @@
-class Bike
-  def working?
-    true
-  end
-end
-
+require_relative 'bike.rb'
 
 class DockingStation
   DEFAULT_CAPACITY = 20
@@ -17,13 +12,20 @@ class DockingStation
   end
 
 
-  def release_bike
+  def release_empty_bike
       fail 'Error, no bikes available!' if empty?
       @stored_bikes.pop
   end
 
+  def release_broken_bike(bike)
+    fail 'Broken bike' if bike.broken_bike
+    bike
+  end
+
+
   def dock_bike (bike)
     fail 'Docking station full' if full?
+    bike.broken_bike == true || false
     @stored_bikes << bike
   end
 

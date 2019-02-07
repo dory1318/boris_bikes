@@ -6,39 +6,41 @@ describe DockingStation do
   it {is_expected.to respond_to :release_bike}
   it {is_expected.to respond_to :dock_bike}
 
-  it 'releases a bike' do
-    docking_station = DockingStation.new
-    bike = Bike.new
-    docking_station.dock_bike(bike)
-    expect(docking_station.release_bike).to be_a(Bike)
+  it 'has a default capacity' do
+    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
-  describe '#release_bike'do
+  describe '#initialization' do
+    subject { DockingStation.new }
+    let(:bike) { Bike.new }
+    it 'defaults capacity' do
+      described_class::DEFAULT_CAPACITY.times do
+        subject.dock_bike(bike)
+      end
+      expect{ subject.dock_bike(bike) }.to raise_error 'Docking station full'
+    end
+  end
+
+  describe '#release bike'do
   it 'raises error' do
-  docking_station = DockingStation.new
-  expect{docking_station.release_bike}.to raise_error(RuntimeError)
+    docking_station = DockingStation.new
+    expect{docking_station.release_bike}.to raise_error 'Error, no bikes available!'
   end
-  end
-
-  it 'docks a bike' do
-    station = DockingStation.new
-    bike = Bike.new
-    expect(station.dock_bike(bike)).to include bike
-  end
+end
 
   describe '#docks a bike' do
     it 'raises an exception' do
-      station = DockingStation.new
-      DockingStation::DEFAULT_CAPACITY.times { station.dock_bike Bike.new }
+      docking_station = DockingStation.new
+      docking_station.capacity.times { docking_station.dock_bike Bike.new }
       bike2 = Bike.new
-      expect{station.dock_bike(bike2)}.to raise_error 'Error, Another bike already docked'
+      expect{docking_station.dock_bike(bike2)}.to raise_error 'Docking station full'
     end
   end
 
   it 'shows docked bike' do
-    station = DockingStation.new
+    docking_station = DockingStation.new
     bike = Bike.new
-    station.dock_bike(bike)
-    expect(station.stored_bikes).to include bike
+    docking_station.dock_bike(bike)
+    expect(docking_station.stored_bikes).to include bike
   end
 end
